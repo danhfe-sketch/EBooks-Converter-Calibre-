@@ -244,6 +244,10 @@ class PDFConverterApp(ctk.CTk):
                 base_name = os.path.splitext(os.path.basename(input_file))[0]
                 output_file = os.path.join(self.output_dir.get(), f"{base_name}.{target_format}")
 
+                # Proteção contra colisão de arquivos (ex: conversão de EPUB para EPUB na mesma pasta)
+                if os.path.abspath(input_file) == os.path.abspath(output_file):
+                    output_file = os.path.join(self.output_dir.get(), f"{base_name}_corrigido.{target_format}")
+
                 # O comando que será executado invisivelmente
                 command = [converter_cmd, input_file, output_file]
                 
